@@ -11,8 +11,6 @@ require("./includes/header.php");
             <a href="index.php" class='btn btn-info'>Volver</a>
             <a href="FormUsuario.php" class='btn btn-success'>Crear Usuario</a>
         </div>
-
-
         <?php if (isset($_SESSION['message'])) { ?>
             <div class="alert alert-<?= $_SESSION['message_type'] ?> alert-dismissible fade show" role="alert">
                 <?= $_SESSION['message'] ?>

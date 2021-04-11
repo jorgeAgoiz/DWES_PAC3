@@ -7,7 +7,11 @@ require("./includes/header.php");
 
 
 <div class="container p-2">
-    <div class="row">
+    <div class="row justify-content-center">
+        <div class="d-grid gap-2 col-4">
+            <a href="index.php" class='btn btn-info'>Volver</a>
+            <a href="FormArticulo.php" class='btn btn-success'>Crear Articulo</a>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -45,6 +49,8 @@ require("./includes/header.php");
                             </a>
                         </td>
                     </tr>
+                    <!-- Pasar esto a una funcion a BaseDatos.php y replicar rutas
+                    como en ListaUsuarios, ademas añadir paginacion -->
                 <?php } ?>
             </tbody>
         </table>
