@@ -225,9 +225,50 @@ function editarUsuarioGet($conn, $userId)
 /* Funcion para modificar el usuario en la BBDD POST */
 function editarUsuarioPost($conn, $UserId)
 {
-    echo "Hey There";
-    echo $UserId;
-    /* Lo dejamos aqui, siguiente paso modificar el registro en la BBDD */
+
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $postalCode = $_POST['postalCode'];
+    $lastAccess = date('Y-m-d');
+    if ($_POST['birthDate']) {
+        $birthDate = $_POST['birthDate'];
+        $query = "UPDATE user SET 
+                            BirthDate='$birthDate', 
+                            Email='$email', 
+                            Address='$address', 
+                            PostalCode='$postalCode', 
+                            Password='$password', 
+                            City='$city', 
+                            State='$state', 
+                            FullName='$name', 
+                            LastAccess = '$lastAccess' 
+                        WHERE UserId = $UserId ";
+    } else {
+        $query = "UPDATE user SET 
+                            BirthDate=null, 
+                            Email='$email', 
+                            Address='$address', 
+                            PostalCode='$postalCode', 
+                            Password='$password', 
+                            City='$city', 
+                            State='$state', 
+                            FullName='$name', 
+                            LastAccess = '$lastAccess' 
+                        WHERE UserId = $UserId ";
+    };
+    if (mysqli_query($conn, $query)) {
+        header("Location: ListaUsuario.php");
+        die();
+    } else {
+        printf("Error: %s\n", mysqli_error($conn));
+    }
+    /* Mostar mensaje de actualización exitosa o actualización no grabada
+    funcionalidad eliminar usuario
+    funcionalidad crear usuario */
 }
 
 
