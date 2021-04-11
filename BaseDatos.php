@@ -36,7 +36,7 @@ function listarUsuarios($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled' >
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -46,7 +46,7 @@ function listarUsuarios($conn)
 /* Listado ordenado por nombre */
 function listarPorNombre($conn)
 {
-    $query = "SELECT * FROM user ORDER BY FullName";
+    $query = "SELECT * FROM user ORDER BY FullName ASC";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -67,7 +67,7 @@ function listarPorNombre($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -77,7 +77,7 @@ function listarPorNombre($conn)
 /* Listado ordenado por Email */
 function listarPorEmail($conn)
 {
-    $query = "SELECT * FROM user ORDER BY Email";
+    $query = "SELECT * FROM user ORDER BY Email ASC";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -98,7 +98,7 @@ function listarPorEmail($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -108,7 +108,7 @@ function listarPorEmail($conn)
 /* Listado ordenado por ultimo acceso */
 function listarPorAcceso($conn)
 {
-    $query = "SELECT * FROM user ORDER BY LastAccess";
+    $query = "SELECT * FROM user ORDER BY LastAccess DESC";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -129,7 +129,7 @@ function listarPorAcceso($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -139,7 +139,7 @@ function listarPorAcceso($conn)
 /* Listado ordenado por ID de usuario */
 function listarPorID($conn)
 {
-    $query = "SELECT * FROM user ORDER BY UserID";
+    $query = "SELECT * FROM user ORDER BY UserID ASC";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -160,7 +160,7 @@ function listarPorID($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -170,7 +170,7 @@ function listarPorID($conn)
 /* Listado ordenado por Enabled */
 function listarPorEnabled($conn)
 {
-    $query = "SELECT * FROM user ORDER BY Enabled";
+    $query = "SELECT * FROM user ORDER BY Enabled ASC";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -191,7 +191,7 @@ function listarPorEnabled($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -225,7 +225,6 @@ function editarUsuarioGet($conn, $userId)
 /* Funcion para modificar el usuario en la BBDD POST */
 function editarUsuarioPost($conn, $UserId)
 {
-
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -261,16 +260,70 @@ function editarUsuarioPost($conn, $UserId)
                         WHERE UserId = $UserId ";
     };
     if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = 'Usuario Actualizado.';
+        $_SESSION['message_type'] = 'info';
         header("Location: ListaUsuario.php");
         die();
     } else {
-        printf("Error: %s\n", mysqli_error($conn));
+        $_SESSION['message'] = 'Error en la actualización.';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: ListaUsuario.php");
+        die();
     }
-    /* Mostar mensaje de actualización exitosa o actualización no grabada
-    funcionalidad eliminar usuario
+    /* funcionalidad eliminar usuario
     funcionalidad crear usuario */
 }
 
+/* Función para crear usuario */
+function crearUsuario($conn)
+{
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $birthDate = $_POST['birthDate'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $postalCode = $_POST['postalCode'];
+    $lastAccess = date('Y-m-d');
+    $enabled = 1;
+
+    $query = "INSERT INTO 
+                        user
+                        (BirthDate, Email, Address, PostalCode, Password, City, State, FullName, LastAccess, Enabled) 
+                    VALUES 
+                        ('$birthDate', '$email', '$address', '$postalCode', '$password', '$city', '$state', '$name', '$lastAccess', $enabled)";
+
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = 'Nuevo Usuario Guardado.';
+        $_SESSION['message_type'] = 'info';
+        header("Location: ListaUsuario.php");
+        die();
+    } else {
+        $_SESSION['message'] = 'Error en el proceso de guardado.';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: ListaUsuario.php");
+        die();
+    }
+}
+
+/* eliminar Usuario */
+if (isset($_GET['deleteId'])) {
+    $userId = $_GET['deleteId'];
+    $query = "DELETE FROM user
+    WHERE UserID = $userId";
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = 'Usuario Eliminado.';
+        $_SESSION['message_type'] = 'info';
+        header("Location: ListaUsuario.php");
+        die();
+    } else {
+        $_SESSION['message'] = 'Error Usuario No Eliminado.';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: ListaUsuario.php");
+        die();
+    }
+}
 
 /********************** FIN FUNCIONES DE EDITAR, ELIMINAR Y CREAR USUARIOS ******************/
 
