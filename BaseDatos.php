@@ -36,7 +36,7 @@ function listarUsuarios($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled' >
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -67,7 +67,7 @@ function listarPorNombre($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -98,7 +98,7 @@ function listarPorEmail($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -129,7 +129,7 @@ function listarPorAcceso($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -160,7 +160,7 @@ function listarPorID($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -191,7 +191,7 @@ function listarPorEnabled($conn)
                             <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
                                 <i class='far fa-edit'></i>
                             </a>
-                            <a href='BaseDatos.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
+                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
                                 <i class='far fa-trash-alt'></i>
                             </a>
                         </td>
@@ -201,7 +201,7 @@ function listarPorEnabled($conn)
 
 /********************** FIN FUNCIONES DE ORDENACION USUARIOS ******************/
 
-/********************** FUNCIONES DE EDITAR, ELIMINAR Y CREAR USUARIOS ******************/
+/********************** FUNCIONES DE EDITAR Y CREAR USUARIOS ******************/
 
 /* Funcion para mostar el usuario a editar GET */
 function editarUsuarioGet($conn, $userId)
@@ -307,24 +307,6 @@ function crearUsuario($conn)
     }
 }
 
-/* eliminar Usuario */
-if (isset($_GET['deleteId'])) {
-    $userId = $_GET['deleteId'];
-    $query = "DELETE FROM user
-    WHERE UserID = $userId";
-    if (mysqli_query($conn, $query)) {
-        $_SESSION['message'] = 'Usuario Eliminado.';
-        $_SESSION['message_type'] = 'info';
-        header("Location: ListaUsuario.php");
-        die();
-    } else {
-        $_SESSION['message'] = 'Error Usuario No Eliminado.';
-        $_SESSION['message_type'] = 'danger';
-        header("Location: ListaUsuario.php");
-        die();
-    }
-}
-
-/********************** FIN FUNCIONES DE EDITAR, ELIMINAR Y CREAR USUARIOS ******************/
+/********************** FIN FUNCIONES DE EDITAR Y CREAR USUARIOS ******************/
 
 ?>
