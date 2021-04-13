@@ -15,43 +15,32 @@ require("./includes/header.php");
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col"><a href="">ID</a></th>
-                    <th scope="col"><a href="#">Categoria</a></th>
-                    <th scope="col"><a href="#">Nombre</a></th>
-                    <th scope="col"><a href="#">Coste</a></th>
-                    <th scope="col"><a href="#">Precio</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?id=<?php echo true; ?>">ID</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?catID=<?php echo true; ?>">Categoria</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?name=<?php echo true; ?>">Nombre</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?cost=<?php echo true; ?>">Coste</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?price=<?php echo true; ?>">Precio</a></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
 
-                $query = "SELECT C.Name as catName, P.ProductID, P.Name, P.Cost, P.Price 
-                FROM 
-                product P 
-                JOIN 
-                category C 
-                ON P.CategoryID = C.CategoryID";
+                if (isset($_GET['id'])) {
+                    listarArticulosPorOrden($conn, "ORDER BY ProductID ASC");
+                } elseif (isset($_GET['catID'])) {
+                    listarArticulosPorOrden($conn, "ORDER BY catName ASC");
+                } elseif (isset($_GET['name'])) {
+                    listarArticulosPorOrden($conn, "ORDER BY Name ASC");
+                } elseif (isset($_GET['cost'])) {
+                    listarArticulosPorOrden($conn, "ORDER BY Cost ASC");
+                } elseif (isset($_GET['price'])) {
+                    listarArticulosPorOrden($conn, "ORDER BY Price ASC");
+                } else {
+                    listarArticulos($conn);
+                }
 
-                $result_tasks = mysqli_query($conn, $query);
-                while ($row = mysqli_fetch_array($result_tasks)) { ?>
-                    <tr>
-                        <td><?php echo  $row['ProductID'] ?></td>
-                        <td><?php echo  $row['catName'] ?></td>
-                        <td><?php echo $row['Name'] ?></td>
-                        <td><?php echo $row['Cost'] ?></td>
-                        <td><?php echo $row['Price'] ?></td>
-                        <td>
-                            <a href="FormArticulo.php?id=<?php echo $row['ProductID']; ?>" class="btn btn-secondary">
-                                <i class="far fa-edit"></i>
-                            </a>
-                            <a href="FormArticulo.php?id=<?php echo $row['ProductID']; ?>" class="btn btn-danger">
-                                <i class="far fa-trash-alt"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <!-- Pasar esto a una funcion a BaseDatos.php y replicar rutas
-                    como en ListaUsuarios, ademas añadir paginacion -->
-                <?php } ?>
+
+                ?>
             </tbody>
         </table>
     </div>

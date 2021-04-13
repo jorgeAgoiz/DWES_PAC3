@@ -32,15 +32,15 @@ require("./includes/header.php");
             <tbody>
                 <?php
                 if (isset($_GET['name'])) {
-                    listarPorNombre($conn);
+                    listarPorOrden($conn, "ORDER BY FullName ASC");
                 } elseif (isset($_GET['email'])) {
-                    listarPorEmail($conn);
+                    listarPorOrden($conn, "ORDER BY Email ASC");
                 } elseif (isset($_GET['lastAccess'])) {
-                    listarPorAcceso($conn);
+                    listarPorOrden($conn, "ORDER BY LastAccess DESC");
                 } elseif (isset($_GET['id'])) {
-                    listarPorID($conn);
+                    listarPorOrden($conn, "ORDER BY UserID ASC");
                 } elseif (isset($_GET['enabled'])) {
-                    listarPorEnabled($conn);
+                    listarPorOrden($conn, "ORDER BY Enabled ASC");
                 } else {
                     listarUsuarios($conn);
                 }

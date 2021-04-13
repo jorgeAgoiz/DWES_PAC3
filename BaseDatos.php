@@ -43,134 +43,10 @@ function listarUsuarios($conn)
                     </tr>";
     }
 }
-/* Listado ordenado por nombre */
-function listarPorNombre($conn)
+/* Listado ordenado por nombre, email, ultimo acceso, ID o Enabled */
+function listarPorOrden($conn, $option)
 {
-    $query = "SELECT * FROM user ORDER BY FullName ASC";
-    $result_tasks = mysqli_query($conn, $query);
-
-    while ($row = mysqli_fetch_array($result_tasks)) {
-        if ($row['UserID'] == 3) {
-            $superadminStyle = 'background-color:blue; color:white; border: 2px solid black;';
-            $disabled = 'disabled';
-        } else {
-            $superadminStyle = null;
-            $disabled = null;
-        }
-        echo    "<tr style='$superadminStyle'>
-                        <td>" . $row['UserID'] . "</td>
-                        <td>" . $row['FullName'] . "</td>
-                        <td>" . $row['Email'] . "</td>
-                        <td>" . $row['LastAccess'] . "</td>
-                        <td>" . $row['Enabled'] . "</td>
-                        <td>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
-                                <i class='far fa-edit'></i>
-                            </a>
-                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
-                                <i class='far fa-trash-alt'></i>
-                            </a>
-                        </td>
-                    </tr>";
-    }
-}
-/* Listado ordenado por Email */
-function listarPorEmail($conn)
-{
-    $query = "SELECT * FROM user ORDER BY Email ASC";
-    $result_tasks = mysqli_query($conn, $query);
-
-    while ($row = mysqli_fetch_array($result_tasks)) {
-        if ($row['UserID'] == 3) {
-            $superadminStyle = 'background-color:blue; color:white; border: 2px solid black;';
-            $disabled = 'disabled';
-        } else {
-            $superadminStyle = null;
-            $disabled = null;
-        }
-        echo    "<tr style='$superadminStyle'>
-                        <td>" . $row['UserID'] . "</td>
-                        <td>" . $row['FullName'] . "</td>
-                        <td>" . $row['Email'] . "</td>
-                        <td>" . $row['LastAccess'] . "</td>
-                        <td>" . $row['Enabled'] . "</td>
-                        <td>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
-                                <i class='far fa-edit'></i>
-                            </a>
-                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
-                                <i class='far fa-trash-alt'></i>
-                            </a>
-                        </td>
-                    </tr>";
-    }
-}
-/* Listado ordenado por ultimo acceso */
-function listarPorAcceso($conn)
-{
-    $query = "SELECT * FROM user ORDER BY LastAccess DESC";
-    $result_tasks = mysqli_query($conn, $query);
-
-    while ($row = mysqli_fetch_array($result_tasks)) {
-        if ($row['UserID'] == 3) {
-            $superadminStyle = 'background-color:blue; color:white; border: 2px solid black;';
-            $disabled = 'disabled';
-        } else {
-            $superadminStyle = null;
-            $disabled = null;
-        }
-        echo    "<tr style='$superadminStyle'>
-                        <td>" . $row['UserID'] . "</td>
-                        <td>" . $row['FullName'] . "</td>
-                        <td>" . $row['Email'] . "</td>
-                        <td>" . $row['LastAccess'] . "</td>
-                        <td>" . $row['Enabled'] . "</td>
-                        <td>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
-                                <i class='far fa-edit'></i>
-                            </a>
-                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
-                                <i class='far fa-trash-alt'></i>
-                            </a>
-                        </td>
-                    </tr>";
-    }
-}
-/* Listado ordenado por ID de usuario */
-function listarPorID($conn)
-{
-    $query = "SELECT * FROM user ORDER BY UserID ASC";
-    $result_tasks = mysqli_query($conn, $query);
-
-    while ($row = mysqli_fetch_array($result_tasks)) {
-        if ($row['UserID'] == 3) {
-            $superadminStyle = 'background-color:blue; color:white; border: 2px solid black;';
-            $disabled = 'disabled';
-        } else {
-            $superadminStyle = null;
-            $disabled = null;
-        }
-        echo    "<tr style='$superadminStyle'>
-                        <td>" . $row['UserID'] . "</td>
-                        <td>" . $row['FullName'] . "</td>
-                        <td>" . $row['Email'] . "</td>
-                        <td>" . $row['LastAccess'] . "</td>
-                        <td>" . $row['Enabled'] . "</td>
-                        <td>
-                            <a href='FormUsuario.php?id=" . $row['UserID'] . "' class='btn btn-secondary $disabled'>
-                                <i class='far fa-edit'></i>
-                            </a>
-                            <a href='FormUsuario.php?deleteId=" . $row['UserID'] . "' class='btn btn-danger $disabled'>
-                                <i class='far fa-trash-alt'></i>
-                            </a>
-                        </td>
-                    </tr>";
-    }
-}
-/* Listado ordenado por Enabled */
-function listarPorEnabled($conn)
-{
-    $query = "SELECT * FROM user ORDER BY Enabled ASC";
+    $query = "SELECT * FROM user $option";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -308,5 +184,150 @@ function crearUsuario($conn)
 }
 
 /********************** FIN FUNCIONES DE EDITAR Y CREAR USUARIOS ******************/
+
+
+
+/********************** FUNCIONES PARA ORDENAR ARTICULOS  **********************************/
+/* Listado por defecto */
+function listarArticulos($conn)
+{
+    $query = "SELECT C.Name as catName, P.ProductID, P.Name, P.Cost, P.Price 
+                FROM 
+                product P 
+                JOIN 
+                category C 
+                ON P.CategoryID = C.CategoryID";
+    $result_tasks = mysqli_query($conn, $query);
+
+    while ($row = mysqli_fetch_array($result_tasks)) {
+
+        echo    "<tr>
+                        <td>" . $row['ProductID'] . "</td>
+                        <td>" . $row['catName'] . "</td>
+                        <td>" . $row['Name'] . "</td>
+                        <td>" . $row['Cost'] . "</td>
+                        <td>" . $row['Price'] . "</td>
+                        
+                        <td>
+                            <a href='FormArticulo.php?editId=" . $row['ProductID'] . "' class='btn btn-secondary'>
+                                <i class='far fa-edit'></i>
+                            </a>
+                            <a href='FormArticulo.php?deleteId=" . $row['ProductID'] . "' class='btn btn-danger'>
+                                <i class='far fa-trash-alt'></i>
+                            </a>
+                        </td>
+                    </tr>";
+    }
+}
+
+function listarArticulosPorOrden($conn, $option)
+{
+    $query = "SELECT C.Name as catName, P.ProductID, P.Name, P.Cost, P.Price 
+                FROM 
+                product P 
+                JOIN 
+                category C 
+                ON P.CategoryID = C.CategoryID $option";
+    $result_tasks = mysqli_query($conn, $query);
+
+    while ($row = mysqli_fetch_array($result_tasks)) {
+
+        echo    "<tr>
+                        <td>" . $row['ProductID'] . "</td>
+                        <td>" . $row['catName'] . "</td>
+                        <td>" . $row['Name'] . "</td>
+                        <td>" . $row['Cost'] . "</td>
+                        <td>" . $row['Price'] . "</td>
+                        
+                        <td>
+                            <a href='FormArticulo.php?editId=" . $row['ProductID'] . "' class='btn btn-secondary'>
+                                <i class='far fa-edit'></i>
+                            </a>
+                            <a href='FormArticulo.php?deleteId=" . $row['ProductID'] . "' class='btn btn-danger'>
+                                <i class='far fa-trash-alt'></i>
+                            </a>
+                        </td>
+                    </tr>";
+    }
+}
+/********************** FIN FUNCIONES ORDENACION ARTICULOS ******************/
+
+/********************** FUNCIONES DE EDITAR Y CREAR ARTICULOS ******************/
+
+/* Funcion para mostar el articulo a editar GET */
+function editarArticuloGet($conn, $productId)
+{
+    $query = "SELECT C.Name as catName, P.ProductID, P.Name, P.Cost, P.Price 
+                FROM 
+                product P 
+                JOIN 
+                category C 
+                ON P.CategoryID = C.CategoryID 
+                WHERE ProductId = $productId";
+    $result_tasks = mysqli_query($conn, $query);
+    if (mysqli_num_rows($result_tasks)) {
+        $row = mysqli_fetch_array($result_tasks);
+        $name = $row['Name'];
+        $cost = $row['Cost'];
+        $price = $row['Price'];
+        $catName = $row['catName'];
+    }
+    return array($name, $cost, $price, $catName, $productId);
+}
+
+
+
+/* Continuaremos aqui con la funcion para editar el artículo en post mode */
+
+/* function editarArticuloPost($conn, $UserId)
+{
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $postalCode = $_POST['postalCode'];
+    $lastAccess = date('Y-m-d');
+    if ($_POST['birthDate']) {
+        $birthDate = $_POST['birthDate'];
+        $query = "UPDATE user SET 
+                            BirthDate='$birthDate', 
+                            Email='$email', 
+                            Address='$address', 
+                            PostalCode='$postalCode', 
+                            Password='$password', 
+                            City='$city', 
+                            State='$state', 
+                            FullName='$name', 
+                            LastAccess = '$lastAccess' 
+                        WHERE UserId = $UserId ";
+    } else {
+        $query = "UPDATE user SET 
+                            BirthDate=null, 
+                            Email='$email', 
+                            Address='$address', 
+                            PostalCode='$postalCode', 
+                            Password='$password', 
+                            City='$city', 
+                            State='$state', 
+                            FullName='$name', 
+                            LastAccess = '$lastAccess' 
+                        WHERE UserId = $UserId ";
+    };
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = 'Usuario Actualizado.';
+        $_SESSION['message_type'] = 'info';
+        header("Location: ListaUsuario.php");
+        die();
+    } else {
+        $_SESSION['message'] = 'Error en la actualización.';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: ListaUsuario.php");
+        die();
+    }
+}
+ */
+
 
 ?>
