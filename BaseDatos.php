@@ -196,7 +196,8 @@ function listarArticulos($conn)
                 product P 
                 JOIN 
                 category C 
-                ON P.CategoryID = C.CategoryID";
+                ON P.CategoryID = C.CategoryID 
+                ORDER BY ProductID ASC";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -257,7 +258,7 @@ function listarArticulosPorOrden($conn, $option)
 /* Funcion para mostar el articulo a editar GET */
 function editarArticuloGet($conn, $productId)
 {
-    $query = "SELECT C.Name as catName, P.ProductID, P.Name, P.Cost, P.Price 
+    $query = "SELECT C.Name as catName, P.ProductID, P.Name, P.Cost, P.Price, P.CategoryID  
                 FROM 
                 product P 
                 JOIN 
@@ -271,63 +272,66 @@ function editarArticuloGet($conn, $productId)
         $cost = $row['Cost'];
         $price = $row['Price'];
         $catName = $row['catName'];
+        $catId = $row['CategoryID'];
     }
-    return array($name, $cost, $price, $catName, $productId);
+    return array($name, $cost, $price, $catName, $productId, $catId);
 }
 
-
-
-/* Continuaremos aqui con la funcion para editar el artículo en post mode */
-
-/* function editarArticuloPost($conn, $UserId)
+/* Funcion para editar articulo POST */
+function editarArticuloPost($conn)
 {
     $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $address = $_POST['address'];
-    $city = $_POST['city'];
-    $state = $_POST['state'];
-    $postalCode = $_POST['postalCode'];
-    $lastAccess = date('Y-m-d');
-    if ($_POST['birthDate']) {
-        $birthDate = $_POST['birthDate'];
-        $query = "UPDATE user SET 
-                            BirthDate='$birthDate', 
-                            Email='$email', 
-                            Address='$address', 
-                            PostalCode='$postalCode', 
-                            Password='$password', 
-                            City='$city', 
-                            State='$state', 
-                            FullName='$name', 
-                            LastAccess = '$lastAccess' 
-                        WHERE UserId = $UserId ";
-    } else {
-        $query = "UPDATE user SET 
-                            BirthDate=null, 
-                            Email='$email', 
-                            Address='$address', 
-                            PostalCode='$postalCode', 
-                            Password='$password', 
-                            City='$city', 
-                            State='$state', 
-                            FullName='$name', 
-                            LastAccess = '$lastAccess' 
-                        WHERE UserId = $UserId ";
-    };
+    $cost = $_POST['cost'];
+    $price = $_POST['price'];
+    $idProduct = $_POST['idProduct'];
+    $catId = intval($_POST['catName']);
+
+    $query = "UPDATE product SET 
+                            Name = '$name', 
+                            Cost = '$cost', 
+                            Price = '$price', 
+                            CategoryID = $catId
+                        WHERE ProductID = '$idProduct' ";
     if (mysqli_query($conn, $query)) {
-        $_SESSION['message'] = 'Usuario Actualizado.';
+        $_SESSION['message'] = 'Articulo Actualizado.';
         $_SESSION['message_type'] = 'info';
-        header("Location: ListaUsuario.php");
+        header("Location: ListaArticulo.php");
         die();
     } else {
         $_SESSION['message'] = 'Error en la actualización.';
         $_SESSION['message_type'] = 'danger';
-        header("Location: ListaUsuario.php");
+        header("Location: ListaArticulo.php");
         die();
     }
 }
- */
+
+/* Funcion para crear articulos */
+function crearArticulo($conn)
+{
+    $name = $_POST['name'];
+    $cost = $_POST['cost'];
+    $price = $_POST['price'];
+    $catId = $_POST['catId'];
+
+    $query = "INSERT INTO 
+                product(Name, Cost, Price, CategoryID) 
+                values('$name', $cost, $price, $catId)";
+
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = 'Nuevo Articulo Guardado.';
+        $_SESSION['message_type'] = 'info';
+        header("Location: ListaArticulo.php");
+        die();
+    } else {
+        $_SESSION['message'] = 'Error en el proceso de guardado.';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: ListaArticulo.php");
+        die();
+    }
+}
+
+/* Aqui metodo para eliminar articulos */
+
 
 
 ?>
