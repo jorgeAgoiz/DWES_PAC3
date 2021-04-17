@@ -378,7 +378,13 @@ if (isset($_POST['authUser'])) {
                 AND Password = '$pass'";
     $result_user = mysqli_query($conn, $query);
     if (mysqli_num_rows($result_user) > 0) {
+
         while ($row = mysqli_fetch_array($result_user)) {
+            $lastAccess = date('Y-m-d');
+            $id = $row['UserID'];
+            $queryUpdate = "UPDATE user SET LastAccess = '$lastAccess' 
+                        WHERE UserID = $id ";
+            $resultUpdate = mysqli_query($conn, $queryUpdate);
             $_SESSION['user'] = $row['Email'];
             header("Location: index.php");
         }
@@ -389,9 +395,12 @@ if (isset($_POST['authUser'])) {
     }
 }
 
-/* Hacer un boton para volver al index, revisar las notificaciones 
-con las sessions y los sessions_unset, realizar la diferenciacion con superadmin 
-y activar o desactivar autenticacion */
+
+/* ToDo List:
+Solo usuarios con el campo enabled 1 pueden autenticarse
+a los 3 intentos se bloquea el usuario excepto superAdmin
+Desactivar/Activar autenticacion
+*/
 
 
 ?>

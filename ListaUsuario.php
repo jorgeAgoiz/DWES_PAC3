@@ -8,7 +8,7 @@ require("./includes/header.php");
 <div class="container p-2">
     <div class="row justify-content-center">
         <div class="d-grid gap-2 col-4">
-            <a href="index.php" class='btn btn-info'>Volver</a>
+            <a href="index.php" class='btn btn-warning'>Volver</a>
             <a href="FormUsuario.php" class='btn btn-success'>Crear Usuario</a>
         </div>
         <?php if (isset($_SESSION['message'])) { ?>
@@ -16,7 +16,9 @@ require("./includes/header.php");
                 <?= $_SESSION['message'] ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        <?php session_unset();
+        <?php
+            unset($_SESSION['message']);
+            unset($_SESSION['message_type']);
         }
         ?>
         <table class="table">
