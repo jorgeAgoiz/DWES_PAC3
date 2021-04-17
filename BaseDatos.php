@@ -367,4 +367,31 @@ function deleteProduct($conn, $productId)
 
 /********************** FIN DE FUNCIONES DE EDITAR, ELIMINAR Y CREAR ARTICULOS ******************/
 
+/***************** AUTENTICACION DE USUARIOS ****************/
+if (isset($_POST['authUser'])) {
+
+    $email = $_POST['email'];
+    $pass = $_POST['password'];
+
+    $query = "SELECT * FROM user 
+                WHERE Email = '$email' 
+                AND Password = '$pass'";
+    $result_user = mysqli_query($conn, $query);
+    if (mysqli_num_rows($result_user) > 0) {
+        while ($row = mysqli_fetch_array($result_user)) {
+            $_SESSION['user'] = $row['Email'];
+            header("Location: index.php");
+        }
+    } else {
+        $_SESSION['message'] = 'Datos Incorrectos.';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: Validacion.php");
+    }
+}
+
+/* Hacer un boton para volver al index, revisar las notificaciones 
+con las sessions y los sessions_unset, realizar la diferenciacion con superadmin 
+y activar o desactivar autenticacion */
+
+
 ?>
