@@ -77,7 +77,7 @@ function listarPorOrden($conn, $option)
 
 /********************** FIN FUNCIONES DE ORDENACION USUARIOS ******************/
 
-/********************** FUNCIONES DE EDITAR Y CREAR USUARIOS ******************/
+/********************** FUNCIONES DE EDITAR, ELIMINAR Y CREAR USUARIOS ******************/
 
 /* Funcion para mostar el usuario a editar GET */
 function editarUsuarioGet($conn, $userId)
@@ -182,8 +182,25 @@ function crearUsuario($conn)
         die();
     }
 }
+/* funcion eliminar usuario */
+function deleteUser($conn, $userId)
+{
+    $query = "DELETE FROM user
+        WHERE UserID = $userId";
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = 'Usuario Eliminado.';
+        $_SESSION['message_type'] = 'info';
+        header("Location: ListaUsuario.php");
+        die();
+    } else {
+        $_SESSION['message'] = 'Error Usuario No Eliminado.';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: ListaUsuario.php");
+        die();
+    };
+}
 
-/********************** FIN FUNCIONES DE EDITAR Y CREAR USUARIOS ******************/
+/********************** FIN FUNCIONES DE EDITAR, ELIMINAR Y CREAR USUARIOS ******************/
 
 
 
@@ -253,7 +270,7 @@ function listarArticulosPorOrden($conn, $option)
 }
 /********************** FIN FUNCIONES ORDENACION ARTICULOS ******************/
 
-/********************** FUNCIONES DE EDITAR Y CREAR ARTICULOS ******************/
+/********************** FUNCIONES DE EDITAR, ELIMINAR Y CREAR ARTICULOS ******************/
 
 /* Funcion para mostar el articulo a editar GET */
 function editarArticuloGet($conn, $productId)
@@ -330,8 +347,24 @@ function crearArticulo($conn)
     }
 }
 
-/* Aqui metodo para eliminar articulos */
+/* funcion para eliminar articulos */
+function deleteProduct($conn, $productId)
+{
+    $query = "DELETE FROM product
+        WHERE ProductID = $productId";
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = 'Artículo Eliminado.';
+        $_SESSION['message_type'] = 'info';
+        header("Location: ListaArticulo.php");
+        die();
+    } else {
+        $_SESSION['message'] = 'Error Artículo No Eliminado.';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: ListaArticulo.php");
+        die();
+    };
+}
 
-
+/********************** FIN DE FUNCIONES DE EDITAR, ELIMINAR Y CREAR ARTICULOS ******************/
 
 ?>

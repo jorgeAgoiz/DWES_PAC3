@@ -4,8 +4,10 @@
 require("BaseDatos.php");
 require("./includes/header.php");
 
-
-if (isset($_GET['editId'])) {
+if (isset($_GET['deleteId'])) {
+    $productId = $_GET['deleteId'];
+    deleteProduct($conn, $productId);
+} elseif (isset($_GET['editId'])) {
     $prodId = $_GET['editId'];
     list($name, $cost, $price, $catName, $idProd, $catId) = editarArticuloGet($conn, $prodId);
 ?>

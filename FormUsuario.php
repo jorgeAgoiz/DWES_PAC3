@@ -11,23 +11,8 @@ require("./includes/header.php");
 /* eliminar Usuario */
 if (isset($_GET['deleteId'])) {
     $userId = $_GET['deleteId'];
-    $query = "DELETE FROM user
-    WHERE UserID = $userId";
-    if (mysqli_query($conn, $query)) {
-        $_SESSION['message'] = 'Usuario Eliminado.';
-        $_SESSION['message_type'] = 'info';
-        header("Location: ListaUsuario.php");
-        die();
-    } else {
-        $_SESSION['message'] = 'Error Usuario No Eliminado.';
-        $_SESSION['message_type'] = 'danger';
-        header("Location: ListaUsuario.php");
-        die();
-    }
-};
-
-
-if (isset($_GET['id'])) {
+    deleteUser($conn, $userId);
+} elseif (isset($_GET['id'])) {
     $userId = $_GET['id'];
     list($name, $email, $birthDate, $address, $postalCode, $password, $city, $state) = editarUsuarioGet($conn, $userId);
 ?>
