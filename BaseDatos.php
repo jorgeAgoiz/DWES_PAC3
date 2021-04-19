@@ -405,6 +405,7 @@ if (isset($_POST['authUser'])) {
     }
 }
 
+/* ********************* FUNCION PARA BLOQUEAR USUARIOS ************************** */
 function bloquearUsuario($conn, $email, $attemps)
 {
     // Si Existe un ultimo email y no es igual al que hemos pasado reseteamos los intentos
@@ -450,9 +451,35 @@ function bloquearUsuario($conn, $email, $attemps)
     }
 }
 
+/* ********************** FUNCION PARA COMPROBAR EL AUTH **************************** */
+function comprobarAuth($conn)
+{
+    $query = "SELECT * FROM setup";
+    $result = mysqli_query($conn, $query);
+    while ($row = $result->fetch_assoc()) {
+        $authAct = $row['Autenticación'];
+    }
+    return $authAct;
+}
+
+/* ************ ACTIVAR/DESACTIVAR AUTENTICACION *************** */
+
+if (isset($_GET['auth'])) {
+    $authValue = $_GET['auth'];
+    $query = "UPDATE setup 
+                    SET Autenticación = $authValue 
+                    WHERE SuperAdmin = 3";
+    $response = mysqli_query($conn, $query);
+    if ($response) {
+        unset($_SESSION['user']);
+        header("Location: index.php");
+    }
+}
+
+
+
 
 /* ToDo List:
-Desactivar/Activar autenticacion
 Paginación articulos
 */
 
