@@ -8,7 +8,7 @@ require("./includes/header.php");
     <div class="row">
 
         <div class="d-grid gap-2 col-3 mx-auto mt-2 pt-2 mb-2 mt-2 text-center">
-            <a href="index.php" class='btn btn-warning'>Volver</a>
+            <a href="index.php" class='btn btn-warning mt-4 mb-4'>Volver</a>
             <h1>Iniciar Sesion</h1>
             <?php if (isset($_SESSION['message'])) { ?>
                 <div class="alert alert-<?= $_SESSION['message_type'] ?> alert-dismissible fade show" role="alert">

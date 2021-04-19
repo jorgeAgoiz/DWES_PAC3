@@ -380,26 +380,80 @@ if (isset($_POST['authUser'])) {
     if (mysqli_num_rows($result_user) > 0) {
 
         while ($row = mysqli_fetch_array($result_user)) {
-            $lastAccess = date('Y-m-d');
-            $id = $row['UserID'];
-            $queryUpdate = "UPDATE user SET LastAccess = '$lastAccess' 
+            if ($row['Enabled'] == 1) {
+                $lastAccess = date('Y-m-d');
+                $id = $row['UserID'];
+                $queryUpdate = "UPDATE user SET LastAccess = '$lastAccess' 
                         WHERE UserID = $id ";
-            $resultUpdate = mysqli_query($conn, $queryUpdate);
-            $_SESSION['user'] = $row['Email'];
-            header("Location: index.php");
+                $resultUpdate = mysqli_query($conn, $queryUpdate);
+                $_SESSION['user'] = $row['Email'];
+                $_SESSION['attemps'] = 0;
+                unset($_SESSION['lastEmail']);
+                header("Location: index.php");
+            } else {
+                $_SESSION['message'] = 'Usuario Inhabilitado.';
+                $_SESSION['message_type'] = 'danger';
+                header("Location: Validacion.php");
+            }
         }
     } else {
-        $_SESSION['message'] = 'Datos Incorrectos.';
+
+        list($message, $response) = bloquearUsuario($conn, $email, 1);
+        $_SESSION['message'] = $message . "<br>Intento: " . $response;
         $_SESSION['message_type'] = 'danger';
         header("Location: Validacion.php");
     }
 }
 
+function bloquearUsuario($conn, $email, $attemps)
+{
+    // Si Existe un ultimo email y no es igual al que hemos pasado reseteamos los intentos
+    if ($_SESSION['lastEmail'] && $_SESSION['lastEmail'] != $email) {
+        $_SESSION['attemps'] = 0;
+    }
+    //Buscamos el email en los usuarios
+    $query = "SELECT UserID from user 
+                WHERE Email = '$email'";
+    $result = mysqli_query($conn, $query);
+    //Si nos devuelve resultado
+    if (mysqli_num_rows($result)) {
+
+        $row = mysqli_fetch_assoc($result);
+        $idToBlock = $row['UserID'];
+        if ($idToBlock == 3) {
+            return array("Super Admin sin limite de intentos.", 0);
+        }
+        //Si los intentos son 3 bloqueamos el usuario
+        if ($_SESSION['attemps'] >= 2) {
+            // Seteando el Enabled a 0
+            $blockQuery = "UPDATE user 
+                            SET Enabled = 0 
+                            WHERE 
+                            UserID = $idToBlock";
+            $userBlocked = mysqli_query($conn, $blockQuery);
+            //Ejecutamos el update y si diera error:
+            if (!$userBlocked) {
+                return array("Algo fue mal.", $_SESSION['attemps']);
+            }
+            //Si se ha bloqueado correctamente
+            $_SESSION['attemps'] = 0;
+            return array("Usuario deshabilitado", $_SESSION['attemps']);
+        } else {
+            //Si no se han agotado los 3 intentos todavia
+            $_SESSION['lastEmail'] = $email;
+            $_SESSION['attemps'] = $_SESSION['attemps'] + $attemps;
+            return array("Intento fallido de inicio de sesion.", $_SESSION['attemps']);
+        }
+    } else {
+        //Si no se encontro usuario con el email indicado
+        return array("Email no registrado.", $_SESSION['attemps']);
+    }
+}
+
 
 /* ToDo List:
-Solo usuarios con el campo enabled 1 pueden autenticarse
-a los 3 intentos se bloquea el usuario excepto superAdmin
 Desactivar/Activar autenticacion
+Paginación articulos
 */
 
 
