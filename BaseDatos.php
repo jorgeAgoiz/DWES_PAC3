@@ -208,13 +208,17 @@ function deleteUser($conn, $userId)
 /* Listado por defecto */
 function listarArticulos($conn)
 {
+    $articulos_por_pagina = 10;
+    $inicio = ($_GET['pagina'] - 1) * $articulos_por_pagina;
+
     $query = "SELECT C.Name as catName, P.ProductID, P.Name, P.Cost, P.Price 
                 FROM 
                 product P 
                 JOIN 
                 category C 
                 ON P.CategoryID = C.CategoryID 
-                ORDER BY ProductID ASC";
+                ORDER BY ProductID ASC 
+                LIMIT $inicio, 10";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -237,15 +241,19 @@ function listarArticulos($conn)
                     </tr>";
     }
 }
-
+/* Listado con ordenación */
 function listarArticulosPorOrden($conn, $option)
 {
+    $articulos_por_pagina = 10;
+    $inicio = ($_GET['pagina'] - 1) * $articulos_por_pagina;
+
     $query = "SELECT C.Name as catName, P.ProductID, P.Name, P.Cost, P.Price 
                 FROM 
                 product P 
                 JOIN 
                 category C 
-                ON P.CategoryID = C.CategoryID $option";
+                ON P.CategoryID = C.CategoryID $option 
+                LIMIT $inicio, 10";
     $result_tasks = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_array($result_tasks)) {
@@ -268,6 +276,22 @@ function listarArticulosPorOrden($conn, $option)
                     </tr>";
     }
 }
+/* Funcion para contar registros y paginar */
+function contarFilas($conn)
+{
+    $query = "SELECT * FROM product";
+    if ($result = mysqli_query($conn, $query)) {
+        $numRows = mysqli_num_rows($result);
+    }
+
+    $numPages = $numRows / 10;
+    $numPages = ceil($numPages);
+
+    return array($numPages, $numRows);
+}
+
+
+
 /********************** FIN FUNCIONES ORDENACION ARTICULOS ******************/
 
 /********************** FUNCIONES DE EDITAR, ELIMINAR Y CREAR ARTICULOS ******************/

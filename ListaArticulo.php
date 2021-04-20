@@ -3,6 +3,13 @@
 <?php
 require("BaseDatos.php");
 require("./includes/header.php");
+
+/* Pagina 1 por defecto */
+if (!$_GET) {
+    header('Location:ListaArticulo.php?pagina=1');
+}
+/* Numero de paginas y numero de registros */
+list($numPags, $numFilas) = contarFilas($conn);
 ?>
 
 
@@ -22,14 +29,91 @@ require("./includes/header.php");
             }
             ?>
         </div>
+        <!-- paginación -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <?php if (isset($_GET['price'])) { ?>
+                    <!-- Si price es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?price=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
+                    </li>
+                <?php } elseif (isset($_GET['cost'])) { ?>
+                    <!-- Si cost es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?cost=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
+                    </li>
+                <?php } elseif (isset($_GET['id'])) { ?>
+                    <!-- Si id es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?id=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
+                    </li>
+                <?php } elseif (isset($_GET['catID'])) { ?>
+                    <!-- Si catID es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?catID=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
+                    </li>
+                <?php } elseif (isset($_GET['name'])) { ?>
+                    <!-- Si name es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?name=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
+                    </li>
+                <?php } else { ?>
+                    <!-- Si solo pagina existe -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
+                    </li>
+                <?php } ?>
+                <?php for ($i = 0; $i < $numPags; $i++) { ?>
+                    <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?pagina=<?php echo $i + 1 ?>'>
+                            <?php echo $i + 1 ?>
+                        </a>
+                    </li>
+                <?php } ?>
+
+
+
+                <?php if (isset($_GET['price'])) { ?>
+                    <!-- Si price es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?price=1&pagina=<?php echo $_GET['pagina'] + 1 ?>'>Siguiente</a>
+                    </li>
+                <?php } elseif (isset($_GET['cost'])) { ?>
+                    <!-- Si cost es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?cost=1&pagina=<?php echo $_GET['pagina'] + 1 ?>'>Siguiente</a>
+                    </li>
+                <?php } elseif (isset($_GET['id'])) { ?>
+                    <!-- Si id es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?id=1&pagina=<?php echo $_GET['pagina'] + 1 ?>'>Siguiente</a>
+                    </li>
+                <?php } elseif (isset($_GET['catID'])) { ?>
+                    <!-- Si catID es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?catID=1&pagina=<?php echo $_GET['pagina'] + 1 ?>'>Siguiente</a>
+                    </li>
+                <?php } elseif (isset($_GET['name'])) { ?>
+                    <!-- Si name es true -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?name=1&pagina=<?php echo $_GET['pagina'] + 1 ?>'>Siguiente</a>
+                    </li>
+                <?php } else { ?>
+                    <!-- Si solo pagina existe -->
+                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                        <a class="page-link" href='ListaArticulo.php?pagina=<?php echo $_GET['pagina'] + 1 ?>'>Siguiente</a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </nav>
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col"><a href="ListaArticulo.php?id=<?php echo true; ?>">ID</a></th>
-                    <th scope="col"><a href="ListaArticulo.php?catID=<?php echo true; ?>">Categoria</a></th>
-                    <th scope="col"><a href="ListaArticulo.php?name=<?php echo true; ?>">Nombre</a></th>
-                    <th scope="col"><a href="ListaArticulo.php?cost=<?php echo true; ?>">Coste</a></th>
-                    <th scope="col"><a href="ListaArticulo.php?price=<?php echo true; ?>">Precio</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?id=<?php echo true; ?>&pagina=1">ID</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?catID=<?php echo true; ?>&pagina=1">Categoria</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?name=<?php echo true; ?>&pagina=1">Nombre</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?cost=<?php echo true; ?>&pagina=1">Coste</a></th>
+                    <th scope="col"><a href="ListaArticulo.php?price=<?php echo true; ?>&pagina=1">Precio</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,16 +137,6 @@ require("./includes/header.php");
                 ?>
             </tbody>
         </table>
-        <!-- Lo dejamos por hoy en la paginación -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav>
     </div>
 </div>
 
