@@ -336,12 +336,12 @@ function editarArticuloPost($conn)
     if (mysqli_query($conn, $query)) {
         $_SESSION['message'] = 'Articulo Actualizado.';
         $_SESSION['message_type'] = 'info';
-        header("Location: ListaArticulo.php");
+        header("Location: ListaArticulo.php?pagina=1");
         die();
     } else {
         $_SESSION['message'] = 'Error en la actualización.';
         $_SESSION['message_type'] = 'danger';
-        header("Location: ListaArticulo.php");
+        header("Location: ListaArticulo.php?pagina=1");
         die();
     }
 }
@@ -361,12 +361,12 @@ function crearArticulo($conn)
     if (mysqli_query($conn, $query)) {
         $_SESSION['message'] = 'Nuevo Articulo Guardado.';
         $_SESSION['message_type'] = 'info';
-        header("Location: ListaArticulo.php");
+        header("Location: ListaArticulo.php?pagina=1");
         die();
     } else {
         $_SESSION['message'] = 'Error en el proceso de guardado.';
         $_SESSION['message_type'] = 'danger';
-        header("Location: ListaArticulo.php");
+        header("Location: ListaArticulo.php?pagina=1");
         die();
     }
 }
@@ -379,12 +379,12 @@ function deleteProduct($conn, $productId)
     if (mysqli_query($conn, $query)) {
         $_SESSION['message'] = 'Artículo Eliminado.';
         $_SESSION['message_type'] = 'info';
-        header("Location: ListaArticulo.php");
+        header("Location: ListaArticulo.php?pagina=1");
         die();
     } else {
         $_SESSION['message'] = 'Error Artículo No Eliminado.';
         $_SESSION['message_type'] = 'danger';
-        header("Location: ListaArticulo.php");
+        header("Location: ListaArticulo.php?pagina=1");
         die();
     };
 }

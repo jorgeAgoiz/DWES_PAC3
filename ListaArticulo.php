@@ -34,42 +34,86 @@ list($numPags, $numFilas) = contarFilas($conn);
             <ul class="pagination">
                 <?php if (isset($_GET['price'])) { ?>
                     <!-- Si price es true -->
-                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                    <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>">
                         <a class="page-link" href='ListaArticulo.php?price=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
                     </li>
-                <?php } elseif (isset($_GET['cost'])) { ?>
+                    <?php for ($i = 0; $i < $numPags; $i++) { ?>
+                        <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>">
+                            <a class="page-link" href='ListaArticulo.php?price=1&pagina=<?php echo $i + 1 ?>'>
+                                <?php echo $i + 1 ?>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                } elseif (isset($_GET['cost'])) { ?>
                     <!-- Si cost es true -->
-                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                    <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>">
                         <a class="page-link" href='ListaArticulo.php?cost=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
                     </li>
-                <?php } elseif (isset($_GET['id'])) { ?>
+                    <?php for ($i = 0; $i < $numPags; $i++) { ?>
+                        <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>">
+                            <a class="page-link" href='ListaArticulo.php?cost=1&pagina=<?php echo $i + 1 ?>'>
+                                <?php echo $i + 1 ?>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                } elseif (isset($_GET['id'])) { ?>
                     <!-- Si id es true -->
-                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                    <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>">
                         <a class="page-link" href='ListaArticulo.php?id=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
                     </li>
-                <?php } elseif (isset($_GET['catID'])) { ?>
+                    <?php for ($i = 0; $i < $numPags; $i++) { ?>
+                        <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>">
+                            <a class="page-link" href='ListaArticulo.php?id=1&pagina=<?php echo $i + 1 ?>'>
+                                <?php echo $i + 1 ?>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                } elseif (isset($_GET['catID'])) { ?>
                     <!-- Si catID es true -->
-                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                    <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>">
                         <a class="page-link" href='ListaArticulo.php?catID=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
                     </li>
-                <?php } elseif (isset($_GET['name'])) { ?>
+                    <?php for ($i = 0; $i < $numPags; $i++) { ?>
+                        <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>">
+                            <a class="page-link" href='ListaArticulo.php?catID=1&pagina=<?php echo $i + 1 ?>'>
+                                <?php echo $i + 1 ?>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                } elseif (isset($_GET['name'])) { ?>
                     <!-- Si name es true -->
-                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                    <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>">
                         <a class="page-link" href='ListaArticulo.php?name=1&pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
                     </li>
-                <?php } else { ?>
+                    <?php for ($i = 0; $i < $numPags; $i++) { ?>
+                        <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>">
+                            <a class="page-link" href='ListaArticulo.php?name=1&pagina=<?php echo $i + 1 ?>'>
+                                <?php echo $i + 1 ?>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                } else { ?>
                     <!-- Si solo pagina existe -->
-                    <li class="page-item <?php echo $_GET['pagina'] >= $numPags ? 'disabled' : '' ?>">
+                    <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>">
                         <a class="page-link" href='ListaArticulo.php?pagina=<?php echo $_GET['pagina'] - 1 ?>'>Anterior</a>
                     </li>
-                <?php } ?>
-                <?php for ($i = 0; $i < $numPags; $i++) { ?>
-                    <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>">
-                        <a class="page-link" href='ListaArticulo.php?pagina=<?php echo $i + 1 ?>'>
-                            <?php echo $i + 1 ?>
-                        </a>
-                    </li>
-                <?php } ?>
+                    <?php for ($i = 0; $i < $numPags; $i++) { ?>
+                        <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>">
+                            <a class="page-link" href='ListaArticulo.php?pagina=<?php echo $i + 1 ?>'>
+                                <?php echo $i + 1 ?>
+                            </a>
+                        </li>
+                <?php
+                    }
+                }
+                ?>
+                <!-- Botones con numero de pagina -->
+
 
 
 
