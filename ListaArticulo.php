@@ -12,18 +12,19 @@ if (!$_GET) {
 list($numPags, $numFilas) = contarFilas($conn);
 ?>
 
-
 <div class="container p-2">
     <div class="row justify-content-center">
         <div class="d-grid gap-2 col-4">
             <a href="index.php" class='btn btn-warning'>Volver</a>
             <a href="FormArticulo.php" class='btn btn-success'>Crear Articulo</a>
+            <!-- Aqui mostramos los mensajes que nos devuelve el servidor -->
             <?php if (isset($_SESSION['message'])) { ?>
                 <div class="alert alert-<?= $_SESSION['message_type'] ?> alert-dismissible fade show" role="alert">
                     <?= $_SESSION['message'] ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php
+                /* Reseteamos las variables de SESSION */
                 unset($_SESSION['message']);
                 unset($_SESSION['message_type']);
             }
@@ -112,10 +113,6 @@ list($numPags, $numFilas) = contarFilas($conn);
                     }
                 }
                 ?>
-                <!-- Botones con numero de pagina -->
-
-
-
 
                 <?php if (isset($_GET['price'])) { ?>
                     <!-- Si price es true -->
@@ -162,7 +159,7 @@ list($numPags, $numFilas) = contarFilas($conn);
             </thead>
             <tbody>
                 <?php
-
+                /* En función de lo que recibamos por GET ordenamos los articulos */
                 if (isset($_GET['id'])) {
                     listarArticulosPorOrden($conn, "ORDER BY ProductID ASC");
                 } elseif (isset($_GET['catID'])) {
@@ -173,17 +170,15 @@ list($numPags, $numFilas) = contarFilas($conn);
                     listarArticulosPorOrden($conn, "ORDER BY Cost ASC");
                 } elseif (isset($_GET['price'])) {
                     listarArticulosPorOrden($conn, "ORDER BY Price ASC");
-                } else {
+                } else {/* Ordenación por defecto */
                     listarArticulos($conn);
                 }
-
 
                 ?>
             </tbody>
         </table>
     </div>
 </div>
-
 
 <!-- Footer -->
 <?php

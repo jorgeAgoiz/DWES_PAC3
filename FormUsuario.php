@@ -5,15 +5,14 @@ require("BaseDatos.php");
 require("./includes/header.php");
 ?>
 
-
 <?php
 
-/* eliminar Usuario */
-if (isset($_GET['deleteId'])) {
+if (isset($_GET['deleteId'])) {/* Si deleteId es enviado por GET */
     $userId = $_GET['deleteId'];
     deleteUser($conn, $userId);
-} elseif (isset($_GET['id'])) {
+} elseif (isset($_GET['id'])) {/* Si id es enviado por GET */
     $userId = $_GET['id'];
+    /* Recogemos los valores que nos devuelve la funcion y lo insertamos en nuestro formulario HTML */
     list($name, $email, $birthDate, $address, $postalCode, $password, $city, $state) = editarUsuarioGet($conn, $userId);
 ?>
     <div class="container">
@@ -60,17 +59,17 @@ if (isset($_GET['deleteId'])) {
     </div>
 </div>
 <?php
-} elseif (isset($_POST['UserId'])) {
+} elseif (isset($_POST['UserId'])) {/* Si UserId es enviado por POST */
     $usuario = $_POST['UserId'];
     editarUsuarioPost($conn, $usuario);
-} elseif (isset($_POST['newUser'])) {
+} elseif (isset($_POST['newUser'])) {/* Si newUser es enviado por POST */
     crearUsuario($conn);
-} else {
+} else {/* Si no recibimos nada por POST o GET, mostramos el formulario normal para Crear usuario */
 ?>
 <div class=" container">
                         <div class="row">
                             <div class="d-grid gap-2 col-6 mx-auto mt-2 pt-2 mb-2 mt-2 text-center">
-                                <h1 class="display-1 mt-4 mb-4">Editar Usuario</h1>
+                                <h1 class="display-1 mt-4 mb-4">Crear Usuario</h1>
                                 <form action="FormUsuario.php" method="POST">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Nombre Completo</label>
@@ -114,7 +113,6 @@ if (isset($_GET['deleteId'])) {
 <?php
 }
 ?>
-
 
 <!-- Footer -->
 <?php

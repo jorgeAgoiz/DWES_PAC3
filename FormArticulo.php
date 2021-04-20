@@ -4,11 +4,12 @@
 require("BaseDatos.php");
 require("./includes/header.php");
 
-if (isset($_GET['deleteId'])) {
+if (isset($_GET['deleteId'])) {/* Si deleteId es enviado por GET */
     $productId = $_GET['deleteId'];
     deleteProduct($conn, $productId);
-} elseif (isset($_GET['editId'])) {
+} elseif (isset($_GET['editId'])) {/* Si editId es enviado por GET */
     $prodId = $_GET['editId'];
+    /* Recogemos en variables todo lo que nos devuelve la funcion y lo insertamos en nuestro formulario */
     list($name, $cost, $price, $catName, $idProd, $catId) = editarArticuloGet($conn, $prodId);
 ?>
 
@@ -56,11 +57,11 @@ if (isset($_GET['deleteId'])) {
 
 
 <?php
-} elseif (isset($_POST['idProduct'])) {
+} elseif (isset($_POST['idProduct'])) {/* Si idProduct es enviado por POST */
     editarArticuloPost($conn);
-} elseif (isset($_POST['newProduct'])) {
+} elseif (isset($_POST['newProduct'])) {/* Si newProduct es enviado por POST */
     crearArticulo($conn);
-} else {
+} else {/* Si no enviamos nada ni por POST o GET mostramos el formulario de Crear Articulo normal */
 ?>
 <div class=" container">
                         <div class="row">
@@ -98,8 +99,6 @@ if (isset($_GET['deleteId'])) {
 <?php
 }
 ?>
-
-
 <!-- Footer -->
 <?php
 require("./includes/footer.php");

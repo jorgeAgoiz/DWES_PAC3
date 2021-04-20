@@ -11,12 +11,14 @@ require("./includes/header.php");
             <a href="index.php" class='btn btn-warning'>Volver</a>
             <a href="FormUsuario.php" class='btn btn-success'>Crear Usuario</a>
         </div>
+        <!-- Aqui mostramos los mensajes que nos devuelva el servidor -->
         <?php if (isset($_SESSION['message'])) { ?>
             <div class="alert alert-<?= $_SESSION['message_type'] ?> alert-dismissible fade show" role="alert">
                 <?= $_SESSION['message'] ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php
+            /* Reseteamos las variables de SESSION */
             unset($_SESSION['message']);
             unset($_SESSION['message_type']);
         }
@@ -33,6 +35,7 @@ require("./includes/header.php");
             </thead>
             <tbody>
                 <?php
+                /* En función de lo que nos llegue por GET ordenaremos los usuarios */
                 if (isset($_GET['name'])) {
                     listarPorOrden($conn, "ORDER BY FullName ASC");
                 } elseif (isset($_GET['email'])) {
@@ -43,11 +46,9 @@ require("./includes/header.php");
                     listarPorOrden($conn, "ORDER BY UserID ASC");
                 } elseif (isset($_GET['enabled'])) {
                     listarPorOrden($conn, "ORDER BY Enabled ASC");
-                } else {
+                } else {/* Ordenación por defecto */
                     listarUsuarios($conn);
                 }
-
-
 
                 ?>
             </tbody>

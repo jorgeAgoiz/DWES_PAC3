@@ -3,20 +3,22 @@
 require("BaseDatos.php");
 require("./includes/header.php");
 ?>
-
+<!-- Formulario de Autenticación -->
 <div class="container">
     <div class="row">
 
         <div class="d-grid gap-2 col-3 mx-auto mt-2 pt-2 mb-2 mt-2 text-center">
             <a href="index.php" class='btn btn-warning mt-4 mb-4'>Volver</a>
             <h1>Iniciar Sesion</h1>
+            <!-- Aqui mostramos los mensajes que nos devuelve el servidor -->
             <?php if (isset($_SESSION['message'])) { ?>
                 <div class="alert alert-<?= $_SESSION['message_type'] ?> alert-dismissible fade show" role="alert">
                     <?= $_SESSION['message'] ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+
             <?php
-                unset($_SESSION['message']);
+                unset($_SESSION['message']);/* Reseteamos la variables de SESSION */
                 unset($_SESSION['message_type']);
             }
             ?>
