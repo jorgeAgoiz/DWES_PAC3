@@ -450,7 +450,7 @@ function bloquearUsuario($conn, $email, $attemps)
 
         $row = mysqli_fetch_assoc($result);
         $idToBlock = $row['UserID'];
-        if ($idToBlock == 3) {
+        if ($idToBlock == 3) { //Si eres super admin sin limite de intentos
             return array("Super Admin sin limite de intentos.", 0);
         }
         //Si los intentos son 3 bloqueamos el usuario
@@ -504,13 +504,6 @@ if (isset($_GET['auth'])) {
         header("Location: index.php");
     }
 }
-
-
-
-
-/* ToDo List:
-Paginación articulos
-*/
 
 
 ?>
