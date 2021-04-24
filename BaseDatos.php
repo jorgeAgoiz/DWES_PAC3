@@ -6,7 +6,7 @@ session_start();
 $conn = mysqli_connect(
     'localhost',
     'root',
-    'nodecomplete2020',
+    'tuContraseñaAqui',
     'pac3_daw'
 );
 
